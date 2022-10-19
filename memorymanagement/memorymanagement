@@ -1,0 +1,18 @@
+- memory allocation and deallocation happens automatically
+- we create and allocate based on 2 methods for memory management;
+  these methods allocate memory and we can put datastructures - array,slices, var etc
+   - new()
+      - allocate memory but no INIT
+      - you will get memory address nd can reference using pointers
+      - zeroed storage, i.e, cannot put any data initially
+
+    - make()
+      - Allocate memory and INIT, so use that memory and put value in it
+      - you will get memory address and can reference using pointers
+      - non zeroed storage, i.e, can put data initially
+
+- Garbage collection(GC) happens automatically
+- anything Out of scope or var which becomes nill are eligible for GC based on certain threshold/condition of GC
+- https://pkg.go.dev/runtime
+- there is functions available to get resources or change values
+
