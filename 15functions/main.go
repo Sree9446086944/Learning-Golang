@@ -4,6 +4,8 @@ import "fmt"
 
 // go mod init functions
 func main() {
+	//fns definition, can be re used again
+
 	// main() is the entry point, we dont need to call the fn
 	//if u declare a function, need to call the fn to execute
 	//cannot define fn inside a fn
