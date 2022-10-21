@@ -1,0 +1,4 @@
+//tool
+Go build - build app for production
+Go run - run at low cost than build
+
