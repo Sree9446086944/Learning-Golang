@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -13,6 +14,8 @@ import (
 
 // go mod init github.com/Sree9446086944/buildapi
 //go get -u github.com/gorilla/mux
+
+// https://github.com/gorilla/mux
 
 // model for course - this usually go into file
 type Course struct {
@@ -39,6 +42,54 @@ func (c *Course) IsEmpty() bool { // method part of struct, since Course struct 
 
 func main() {
 	//controller - govern how we handle routes
+	//seeding the data(means adding values initially to db for test) and routes that use the controlleres
+	fmt.Println("Api")
+
+	// mux give ability to have routers throught newRouter()
+	r := mux.NewRouter() //create router
+
+	//seeding
+	courses = append(courses, Course{CourseId: "2", CourseName: "ReactJS", CoursePrice: 299, Author: &Author{Fullname: "Sree", Website: "lco.dev"}}) //Authod is a pointer type, so pass reference and that reference coming from Author
+	courses = append(courses, Course{CourseId: "4", CourseName: "MERN Stack", CoursePrice: 199, Author: &Author{Fullname: "Sree", Website: "go.dev"}})
+
+	//routing
+	r.HandleFunc("/", serveHome).Methods("GET") //r- router, handleFunc(route,controller (not as fn passed instead reference, i.e without ())), and Method working on is Get
+	r.HandleFunc("/courses", getAllCourses).Methods("GET")
+	r.HandleFunc("/courses/{id}", getOneCourse).Methods("GET") //param "id"
+	r.HandleFunc("/course", createOneCourse).Methods("POST")
+	r.HandleFunc("/course/{id}", updateOneCourse).Methods("PUT")
+	r.HandleFunc("/course/{id}", deleteOneCourse).Methods("DELETE")
+
+	//listen to port
+	log.Fatal(http.ListenAndServe(":4000", r)) // Fatal will stop if any error and logs error, use instead of if err!=null
+
+	//go build .
+	//go run main.go
+	//localhost:4000/
+	// http://localhost:4000/courses  - GET
+	// http://localhost:4000/courses/2  - GET
+
+	/*http://localhost:4000/course - POST
+	{
+		"coursename":"Java Spring",
+		"price":199,
+		"Author":{
+		  "fullname":"Kunal",
+		  "website":"communityclassroom.com"
+		}
+	  }*/
+
+	/* http://localhost:4000/course/63 - PUT
+	  {
+		"coursename":"Nodejs",
+		"price":199,
+		"Author":{
+		  "fullname":"Brad",
+		  "website":"brad.com"
+		}
+	  }*/
+
+	//   http://localhost:4000/course/2 - DELETE
 }
 
 //controllers - real case another file
@@ -93,6 +144,9 @@ func createOneCourse(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//check only if title is duplicate
+	//loop, title matches with course.coursename, JSON response - already exist
+
 	//generate unique id, string
 	//append course into courses
 
@@ -140,6 +194,7 @@ func deleteOneCourse(w http.ResponseWriter, r *http.Request) {
 	for index, course := range courses {
 		if course.CourseId == params["id"] {
 			courses = append(courses[:index], courses[index+1:]...) //removed the course
+			//send a confirm/deny response
 			json.NewEncoder(w).Encode("Deleted the course")
 			break //breaks the entire loop
 		}

@@ -1,0 +1,21 @@
+1) gopls was not able to find modules in your workspace. When outside of GOPATH, gopls needs to know which modules you are working on.
+
+ - mux was not able import, could not find module
+ 
+soln:-
+   You probably have more than one go module in your workspace. If that is the case, you can change the go extension settings, in order to allow gopls to look for multiple modules in the workspace. Just add the following to your settings.json:
+
+To solve this, follow below steps :
+
+step 1 : Open Vscode, and then go to settings.
+
+step 2 : In the search bar , type gopls
+
+step 3 : Just below that you will find settings.json, click on that
+
+step 4 : Paste the below code their "gopls": { "experimentalWorkspaceModule": true, }
+
+step 5 : Save it and restart the Vscode, You are good to go now.
+
+refer : - https://stackoverflow.com/questions/65748509/vscode-shows-an-error-when-having-multiple-go-projects-in-a-directory
+
