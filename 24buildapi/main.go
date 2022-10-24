@@ -62,6 +62,7 @@ func main() {
 
 	//listen to port
 	log.Fatal(http.ListenAndServe(":4000", r)) // Fatal will stop if any error and logs error, use instead of if err!=null
+	// :4000 means every url with 4000 port
 
 	//go build .
 	//go run main.go
