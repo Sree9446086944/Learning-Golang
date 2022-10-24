@@ -43,6 +43,8 @@ func main() {
 		wg.Done()
 	}(wg, mut)
 
+	//all the 3 goroutine is trying to write score slice
+
 	wg.Wait() // waits for all other goroutines to finish before main goroutine finish
 	fmt.Println(score)
 	//o/p  // no guarantee which goroutine will finish first, so value added order cannot be guaranteed
